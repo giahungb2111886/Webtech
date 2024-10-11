@@ -6,9 +6,9 @@ Course: CT313H-Web Technologies and Services.
 
 Semester 1, Academic year: 2024-2025.
 
-**Student ID**: B2111916
+**Student ID**: 
 
-**Student Name**: Vo Quoc Bang
+**Student Name**: 
 
-**Class Number**: M03
+**Class Number**: 
 
