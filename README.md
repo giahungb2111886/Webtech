@@ -8,7 +8,6 @@ Semester 1, Academic year: 2024-2025.
 
 **Student ID**: B2111916
 
-**Student Name**: Vo Quoc Bang
+**Student Name**: Vo
 
 **Class Number**: M03
-

@@ -1,30 +1,23 @@
 # Common references
 components:
   schemas:
-    Contact:
+    Product:
       type: object
       properties:
-        id:
+        id_sp:
           type: integer
           readOnly: true # Returned by HTTP GET
-        name:
+        ten_sp:
           type: string
-          description: contact name
-        email:
+          description: product name
+        gia_sp:
           type: string
-          format: email
-          description: contact email
-        address:
-          type: string
-          description: contact address
-        phone:
-          type: string
-          description: contact phone number
-        favorite:
+          description: price
+        trangthai:
           type: integer
           enum: [0, 1]
           default: 0
-          description: favorite contact
+          description: trang thai sp
         avatar:
           type: string
           readOnly: true # Returned by HTTP GET
@@ -77,8 +70,8 @@ components:
                 description: The response data
 
   parameters:
-    contactIdParam:
-      name: id
+    productIdParam:
+      name: id_sp
       description: Contact ID
       required: true
       in: path
