@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 const express = require("express");
 const productsController = require("../controllers/products.controller");
+const authController = require("../controllers/auth.controller");
 const { methodNotAllowed } = require("../controllers/errors.controller");
 const avatarUpload = require("../middlewares/avatar-upload.middleware");
 
@@ -187,6 +188,16 @@ module.exports.setup = (app) => {
    */
   router.delete("/:id_sp", productsController.deleteProduct);
   router.all("/:id_sp", methodNotAllowed);
+
+  router.post('register', authController.register)
+  router.all("/register", methodNotAllowed);
+
+  router.post('login', authController.login)
+  router.all("/login", methodNotAllowed);
+
+  router.get('logout', authController.logout)
+  router.all("/logout", methodNotAllowed);
+
 };
 
 // /* eslint-disable no-undef */

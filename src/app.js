@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const JSend = require("./jsend");
 const contactsRouter = require("./routes/products.router");
+const authRouter = require("./routes/auth.router");
 
 const {
   resourceNotFound,
@@ -18,6 +19,7 @@ app.get("/", (req, res) => {
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use("/public", express.static("public"));
+app.use("/api/v1/auth", authRouter);
 contactsRouter.setup(app);
 
 //404

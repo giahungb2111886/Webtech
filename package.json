@@ -1,5 +1,6 @@
 {
-  "name": "ct313hm03-contactbook-api-giahungb2111886",  "version": "1.0.0",
+  "name": "ct313hm03-contactbook-api-giahungb2111886",
+  "version": "1.0.0",
   "description": "API backend for the contactbook application.",
   "main": "index.js",
   "scripts": {
@@ -17,6 +18,7 @@
     "prettier": "^3.3.3"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
