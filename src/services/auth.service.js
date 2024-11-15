@@ -1,5 +1,6 @@
-const knex = require('../database/knex');
-const bcrypt = require('bcrypt');
+const knex = require("../database/knex");
+const bcrypt = require("bcrypt");
+const ApiError = require("../api-error");
 
 function userRepository() {
   return knex("users");
@@ -7,40 +8,61 @@ function userRepository() {
 // Đăng ký
 exports.register = async (body) => {
   try {
-    const { user_name, email, password } = body;
+    const { user_name, user_email, password } = body;
 
-    const existingUser = await userRepository().where({ email, user_name }).first();
-    if (existingUser) return res.status(400).json({ message: 'Email đã tồn tại' });
+    if (!user_name || !user_email || !password) {
+      return new ApiError(
+        400,
+        "Bad request, user_name | user_email | password"
+      );
+    }
+    const existingUser = await userRepository()
+      .where({ user_email, user_name })
+      .first();
+    if (existingUser)
+      return new ApiError(400, "user_name hoặc email đã tồn tại");
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    return await userRepository().insert({ name, email, password: hashedPassword });
-
+    let created = await userRepository().insert({
+      user_name,
+      user_email,
+      user_pass: hashedPassword,
+    });
+    if (created) {
+      return { message: "Đăng ký thành công!" };
+    }
   } catch (error) {
-    console.log(error)
-    return { message: 'Lỗi server', error };
+    console.log(error);
+    return { message: "Lỗi server", error };
   }
 };
 
 // Đăng nhập
-exports.login = async (req, res) => {
+exports.login = async (body) => {
   try {
-    const { email, password } = body;
+    const { user_name, password } = body;
 
-    const user = await userRepository().where({ email }).first();
-    if (!user) return res.status(404).json({ message: 'Tài khoản không tồn tại' });
+    if (!user_name || !password) {
+      return new ApiError(400, "Bad request, user_name  | password");
+    }
+    const user = await userRepository().where({ user_name }).first();
+    if (!user) return new ApiError(404, "Tài khoản không tồn tại");
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) return res.status(401).json({ message: 'Sai mật khẩu' });
+    const isPasswordValid = await bcrypt.compare(password, user.user_pass);
+    if (!isPasswordValid) return new ApiError(404, "Sai mật khẩu");
 
-    return { message: 'Đăng nhập thành công', userId: user.id };
+    return {
+      message: "Đăng nhập thành công",
+      userId: user.user_id,
+      user_email: user.user_email,
+    };
   } catch (error) {
-    console.log(error)
-    return { message: 'Lỗi server', error };
+    console.log(error);
+    return { message: "Lỗi server", error };
   }
 };
 
 // Đăng xuất (client-side xử lý xóa session/cookie)
 exports.logout = (req, res) => {
-
-  return { message: 'Đăng xuất thành công' };
+  return { message: "Đăng xuất thành công" };
 };
